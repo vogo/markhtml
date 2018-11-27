@@ -1,3 +1,5 @@
+//+build dev
+
 package main
 
 import (
@@ -9,6 +11,11 @@ import (
 	"unicode/utf8"
 )
 
+var files = []string{
+	"index.html",
+	"markhtml.js",
+}
+
 func main() {
 	if err := makestatic(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
@@ -17,24 +24,33 @@ func main() {
 }
 
 func makestatic() error {
-	b, err := ioutil.ReadFile("index.html")
+	f, err := os.Create("static.go")
 	if err != nil {
 		return err
 	}
-
+	defer f.Close()
 	buf := new(bytes.Buffer)
 	fmt.Fprintf(buf, "package main\n\n")
-	fmt.Fprintf(buf, "var HTML = ")
-	if utf8.Valid(b) {
-		fmt.Fprintf(buf, "`%s`", sanitize(b))
-	} else {
-		fmt.Fprintf(buf, "%q", b)
+	fmt.Fprintf(buf, "var Files = map[string]string{\n")
+	for _, fn := range files {
+		b, err := ioutil.ReadFile(fn)
+		if err != nil {
+			return err
+		}
+		fmt.Fprintf(buf, "\t%q: ", fn)
+		if utf8.Valid(b) {
+			fmt.Fprintf(buf, "`%s`", sanitize(b))
+		} else {
+			fmt.Fprintf(buf, "%q", b)
+		}
+		fmt.Fprintln(buf, ",\n")
 	}
+	fmt.Fprintln(buf, "}")
 	fmtbuf, err := format.Source(buf.Bytes())
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile("html.go", fmtbuf, 0666)
+	return ioutil.WriteFile("static.go", fmtbuf, 0666)
 }
 
 // sanitize prepares a valid UTF-8 string as a raw string constant.

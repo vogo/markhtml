@@ -9,7 +9,9 @@ import (
 )
 
 var (
-	port = flag.String("port", "80", "port")
+	port            = flag.String("port", "80", "port")
+	markhtmljsBytes = []byte(Files["markhtml.js"])
+	indexhtmlBytes  = []byte(Files["index.html"])
 )
 
 func main() {
@@ -19,10 +21,14 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 
-	r.GET("/*.html", gin.WrapH(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		w.Write([]byte(HTML))
-	})))
+	r.GET("/*.html", func(c *gin.Context) {
+		if c.Request.URL.Path == "/markhtml.js" {
+			c.Data(http.StatusOK, "application/javascript", markhtmljsBytes)
+			return
+		}
+		c.Data(http.StatusOK, "text/html", indexhtmlBytes)
+	})
+
 	r.Run(fmt.Sprintf(":%s", *port))
 
 }
