@@ -10,8 +10,8 @@ import (
 
 var (
 	port            = flag.String("port", "80", "port")
-	markhtmljsBytes = []byte(Files["markhtml.js"])
-	indexhtmlBytes  = []byte(Files["index.html"])
+	markhtmljsBytes = []byte(Files["markhtml.min.js"])
+	indexhtmlBytes  = []byte(Files["index.min.html"])
 )
 
 func main() {

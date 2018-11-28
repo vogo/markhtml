@@ -13,6 +13,9 @@
                 document.title = mainTitle.innerText;
                 document.body.insertBefore(this.buildmenu(), app)
             }
+            if (callbackAfterShow && typeof callbackAfterShow == "function") {
+                callbackAfterShow()
+            }
         },
 
         loadmark: function() {
