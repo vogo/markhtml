@@ -7,12 +7,22 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <title>Index</title>
+    <style>
+        input,
+        button {
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
+    <form id="editor" style="display:none" onsubmit="markhtml.loadurl(dom('url').value);return false;">
+        <input type="text" id="url" style="width:600px" placeholder="markdown url" />
+        <button type="submit">To HTML</button>
+    </form>
+    <div id="menu" style="float:left;position:fixed;"></div>
     <div class="markdown-body" id="app" style="width:900px;margin: 0 auto;"></div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.5.2/marked.min.js"></script>
-    <script src="/markhtml.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>
         function callbackAfterShow()
@@ -20,6 +30,7 @@
             hljs.initHighlightingOnLoad();
         }
     </script>
+    <script src="/markhtml.js"></script>
 </body>
 
 </html>
