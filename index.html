@@ -8,6 +8,24 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <title>Index</title>
     <style>
+        #menu {
+            font-size: 12px;
+            float: left;
+            position: fixed;
+        }
+
+        #menu ul {
+            padding: 0px;
+        }
+
+        #menu li {
+            margin-left: 10px
+        }
+
+        #menu a {
+            color: black
+        }
+
         input,
         button {
             padding: 10px;
@@ -20,7 +38,7 @@
         <input type="text" id="url" style="width:600px" placeholder="markdown url" />
         <button type="submit">To HTML</button>
     </form>
-    <div id="menu" style="float:left;position:fixed;"></div>
+    <div id="menu"></div>
     <div class="markdown-body" id="app" style="width:900px;margin: 0 auto;"></div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.5.2/marked.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
