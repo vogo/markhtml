@@ -23,6 +23,7 @@ function markhtml(level, host) {
     var mh = {
         level: level,
         defaultHost: host,
+        mdurl: "",
         v: function(s) {
             if (s == "") {
                 s = "找不到你要访问的页面!";
@@ -42,7 +43,23 @@ function markhtml(level, host) {
             if (callbackAfterShow && typeof callbackAfterShow == "function") {
                 callbackAfterShow()
             }
+            mdHostPrefix = mh.mdurl.substr(0, mh.mdurl.indexOf("/", 10))
+            mdUrlPrefix = mh.mdurl.substr(0, mh.mdurl.lastIndexOf("/"))
+            images = document.getElementsByTagName("img")
+            for (i = 0; i < images.length; i++) {
+                img = images[i]
+                src = img.getAttribute("src")
+                if (src.startsWith("http://") || src.startsWith("https://")) {
+                    continue
+                }
+                if (src.startsWith("/")) {
+                    img.src = mdHostPrefix + src
+                } else {
+                    img.src = mdUrlPrefix + "/" + src
+                }
+            }
         },
+
         loadmark: function() {
             url = window.location.pathname;
             if (url.length < 10) {
@@ -66,6 +83,9 @@ function markhtml(level, host) {
             mh.loadurl(url)
         },
         loadurl: function(url) {
+            mh.mdurl = url
+
+
             dom("menu").innerHTML = ""
             if (window.XMLHttpRequest) {
                 xmlhttp = new XMLHttpRequest();
