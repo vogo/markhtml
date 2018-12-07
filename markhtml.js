@@ -18,11 +18,11 @@ function hformt(text) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
 }
-(function(level) {
 
+function markhtml(level, host) {
     var mh = {
         level: level,
-
+        defaultHost: host,
         v: function(s) {
             if (s == "") {
                 s = "找不到你要访问的页面!";
@@ -48,6 +48,15 @@ function hformt(text) {
             if (url.length < 10) {
                 dom("editor").style.display = ""
                 return
+            }
+            if (url.charAt(0) == '/') {
+                url = url.substr(1, url.length - 1)
+            }
+            if (mh.defaultHost != "") {
+                hostIndex = url.indexOf("/")
+                if (hostIndex > 0 && url.substr(0, hostIndex).indexOf(".") == -1) {
+                    url = mh.defaultHost + "/" + url
+                }
             }
             url = "http://" + url
             if (!endwith(url, ".markdown") && !endwith(url, ".md")) {
@@ -134,9 +143,36 @@ function hformt(text) {
                 '</a>'
             return link
         },
-
     };
+    return mh;
+}
 
-    window.markhtml = mh;
-})(3);
-window.onload = window.markhtml.loadmark;
+function GenPageId() {
+    var gid = document.location.href;
+    gid = gid.replace("http://", "");
+    gid = gid.replace("https://", "");
+    gid = gid.replace("sisopipo.com", "");
+    gid = gid.replace(".html", "");
+    gid = gid.replace(".md", "");
+    gid = gid.replace(".markdown", "");
+
+    if (gid[gid.length - 1] == '/') {
+        gid = gid.substr(0, gid.length - 1);
+    }
+    var len = gid.lastIndexOf("/");
+    if (gid.length - len > 25) {
+        gid = gid.substr(len + 1);
+    } else {
+        len = gid.lastIndexOf("/", len - 1);
+        if (gid.length - len > 25) {
+            gid = gid.substr(len + 1);
+        }
+    }
+    if (gid.length > 50) {
+        gid = gid.replace(/[\W]/g, "");
+    }
+    if (gid.length > 50) {
+        gid = gid.substr(gid.length - 50);
+    }
+    return gid;
+}

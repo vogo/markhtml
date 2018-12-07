@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
     <title>Index</title>
     <style>
         #menu {
@@ -26,6 +27,11 @@
             color: black
         }
 
+        .main {
+            width: 900px;
+            margin: 0 auto;
+        }
+
         input,
         button {
             padding: 10px;
@@ -39,16 +45,37 @@
         <button type="submit">To HTML</button>
     </form>
     <div id="menu"></div>
-    <div class="markdown-body" id="app" style="width:900px;margin: 0 auto;"></div>
+    <div class="markdown-body main" id="app"></div>
+    <div class="main" id="gitalk"></div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.5.2/marked.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/markhtml.js"></script>
     <script>
         function callbackAfterShow()
         {
             hljs.initHighlightingOnLoad();
+            NewGitalk().render('gitalk');
         }
+
+        function NewGitalk()
+        {
+            return new Gitalk(
+            {
+                clientID: 'eac079c4ec282da19220',
+                clientSecret: '0a7f98ef97c6bedb08214e97811214fd65b8e29c',
+                repo: 'wongoo.github.io',
+                owner: 'wongoo',
+                admin: ['wongoo'],
+                id: GenPageId(),
+                language: 'zh-CN',
+                // facebook-like distraction free mode
+                distractionFreeMode: true
+            });
+        }
+        mh = markhtml(3, "doc.sisopipo.com");
+        window.onload = mh.loadmark;
     </script>
-    <script src="/markhtml.js"></script>
 </body>
 
 </html>
