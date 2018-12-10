@@ -3,7 +3,9 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
+	"encoding/base64"
 	"fmt"
 	"go/format"
 	"io/ioutil"
@@ -17,20 +19,39 @@ var files = []string{
 }
 
 func main() {
-	if err := makestatic(); err != nil {
+	err := domake()
+	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-}
 
-func makestatic() error {
+}
+func domake() (err error) {
 	f, err := os.Create("static.go")
 	if err != nil {
-		return err
+		return
 	}
 	defer f.Close()
 	buf := new(bytes.Buffer)
+
 	fmt.Fprintf(buf, "package main\n\n")
+
+	if err = makestatic(buf); err != nil {
+		return
+	}
+
+	if err = readIco(buf); err != nil {
+		return
+	}
+
+	fmtbuf, err := format.Source(buf.Bytes())
+	if err != nil {
+		return
+	}
+	return ioutil.WriteFile("static.go", fmtbuf, 0666)
+}
+
+func makestatic(buf *bytes.Buffer) error {
 	fmt.Fprintf(buf, "var Files = map[string]string{\n")
 	for _, fn := range files {
 		b, err := ioutil.ReadFile(fn)
@@ -46,11 +67,19 @@ func makestatic() error {
 		fmt.Fprintln(buf, ",\n")
 	}
 	fmt.Fprintln(buf, "}")
-	fmtbuf, err := format.Source(buf.Bytes())
+	return nil
+}
+
+func readIco(buf *bytes.Buffer) error {
+	f, _ := os.Open("./favicon.ico")
+	reader := bufio.NewReader(f)
+	content, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile("static.go", fmtbuf, 0666)
+	encoded := base64.StdEncoding.EncodeToString(content)
+	fmt.Fprintf(buf, "\nvar IcoFile=\"%s\" ", encoded)
+	return nil
 }
 
 // sanitize prepares a valid UTF-8 string as a raw string constant.
