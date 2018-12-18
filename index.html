@@ -40,7 +40,7 @@
 </head>
 
 <body>
-    <form id="editor" style="display:none" onsubmit="markhtml.loadurl(dom('url').value);return false;">
+    <form id="editor" style="display:none" onsubmit="mh.loadurl(dom('url').value);return false;">
         <input type="text" id="url" style="width:600px" placeholder="markdown url" />
         <button type="submit">To HTML</button>
     </form>
@@ -50,7 +50,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.5.2/marked.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/gitalk/1.4.1/gitalk.min.js"></script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="/markhtml.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config( { showProcessingMessages: false,messageStyle: "none", "HTML-CSS":
+        { linebreaks: { automatic: false }, availableFonts: ["STIX", "TeX"]}, tex2jax:
+        { inlineMath: [ ["$", "$"], ["\\(", "\\)"] ], displayMath: [ ["$$", "$$"],
+        ["\\[", "\\]"] ], processEscapes: true, skipTags: ["script", "noscript",
+        "style", "textarea", "pre", "code", "a"] }, TeX: { Macros: { tr: "{\\scriptscriptstyle\\mathrm{T}}",
+        } } });
+    </script>
     <script>
         var defaultHost = "doc.sisopipo.com"
 
@@ -61,6 +70,11 @@
             {
                 NewGitalk().render('gitalk');
             }
+            MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, dom('app')], [
+                    "resetEquationNumbers", MathJax.InputJax.TeX
+                ]
+            );
         }
 
         function NewGitalk()
@@ -74,7 +88,6 @@
                 admin: ['wongoo'],
                 id: GenPageId(),
                 language: 'zh-CN',
-                // facebook-like distraction free mode
                 distractionFreeMode: true
             });
         }

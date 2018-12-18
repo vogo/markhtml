@@ -1,4 +1,11 @@
-A html viewer for markdown from url address
+A markdown viewer
+
+[demo page](http://page.sisopipo.com/raw.githubusercontent.com/kubernetes/kubernetes/master/README.md)
+
+Feature:
+- mathjax support
+- gitalk
+- fast navigates menu
 
 TODO:
-- math expression support, see  http://marked2app.com/help/MathJax.html
+- beautiful code style 
