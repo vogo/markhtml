@@ -85,7 +85,6 @@ function markhtml(level, host) {
         loadurl: function(url) {
             mh.mdurl = url
 
-
             dom("menu").innerHTML = ""
             if (window.XMLHttpRequest) {
                 xmlhttp = new XMLHttpRequest();

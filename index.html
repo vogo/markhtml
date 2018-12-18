@@ -52,10 +52,15 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/gitalk/1.4.1/gitalk.min.js"></script>
     <script src="/markhtml.js"></script>
     <script>
+        var defaultHost = "doc.sisopipo.com"
+
         function callbackAfterShow()
         {
             hljs.initHighlightingOnLoad();
-            NewGitalk().render('gitalk');
+            if (mh.mdurl.indexOf(defaultHost) > 0)
+            {
+                NewGitalk().render('gitalk');
+            }
         }
 
         function NewGitalk()
@@ -73,7 +78,7 @@
                 distractionFreeMode: true
             });
         }
-        mh = markhtml(3, "doc.sisopipo.com");
+        mh = markhtml(3, defaultHost);
         window.onload = mh.loadmark;
     </script>
 </body>
