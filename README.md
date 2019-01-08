@@ -1,6 +1,6 @@
 A markdown viewer
 
-[demo page](http://page.sisopipo.com/raw.githubusercontent.com/kubernetes/kubernetes/master/README.md)
+[demo page](http://markhtml.sisopipo.com?url=https://raw.githubusercontent.com/kubernetes/kubernetes/master/README.md)
 
 Feature:
 - mathjax support
