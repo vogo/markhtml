@@ -10,7 +10,7 @@ function endwith(s, c) {
     return s.indexOf(c, s.length - c.length) != -1;
 }
 
-function hformt(text) {
+function hfmt(text) {
     return text
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
@@ -19,10 +19,20 @@ function hformt(text) {
         .replace(/>/g, '&gt;')
 }
 
-function markhtml(level, host) {
+// https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/901144
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function markhtml(level) {
     var mh = {
         level: level,
-        defaultHost: host,
         mdurl: "",
         v: function(s) {
             if (s == "") {
@@ -61,21 +71,7 @@ function markhtml(level, host) {
         },
 
         loadmark: function() {
-            url = window.location.pathname;
-            if (url.length < 10) {
-                dom("editor").style.display = ""
-                return
-            }
-            if (url.charAt(0) == '/') {
-                url = url.substr(1, url.length - 1)
-            }
-            if (mh.defaultHost != "") {
-                hostIndex = url.indexOf("/")
-                if (hostIndex > 0 && url.substr(0, hostIndex).indexOf(".") == -1) {
-                    url = mh.defaultHost + "/" + url
-                }
-            }
-            url = "http://" + url
+            url = getParameterByName("url")
             if (!endwith(url, ".markdown") && !endwith(url, ".md")) {
                 mh.v("不支持的markdown地址: " + url);
                 return;
@@ -158,7 +154,7 @@ function markhtml(level, host) {
             }).join('').replace(/\(.*\)$/, '')
             link.innerHTML =
                 '<a class="section-link" data-scroll href="#' + h.id + '">' +
-                hformt(text) +
+                hfmt(text) +
                 '</a>'
             return link
         },
@@ -195,3 +191,33 @@ function GenPageId() {
     }
     return gid;
 }
+
+var defaultHost = "doc.sisopipo.com"
+
+function callbackAfterShow() {
+    hljs.initHighlightingOnLoad();
+    if (mh.mdurl.indexOf(defaultHost) > 0) {
+        NewGitalk().render('gitalk');
+    }
+    MathJax.Hub.Queue(
+        ["Typeset", MathJax.Hub, dom('app')], [
+            "resetEquationNumbers", MathJax.InputJax.TeX
+        ]
+    );
+}
+
+function NewGitalk() {
+    return new Gitalk({
+        clientID: 'eac079c4ec282da19220',
+        clientSecret: '0a7f98ef97c6bedb08214e97811214fd65b8e29c',
+        repo: 'wongoo.github.io',
+        owner: 'wongoo',
+        admin: ['wongoo'],
+        id: GenPageId(),
+        language: 'zh-CN',
+        distractionFreeMode: true
+    });
+}
+
+mh = markhtml(3);
+window.onload = mh.loadmark;

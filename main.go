@@ -8,11 +8,12 @@ import (
 )
 
 var (
-	markhtmljsBytes = []byte(Files["markhtml.min.js"])
-	indexhtmlBytes  = []byte(Files["index.min.html"])
-	oneDaySeconds   = 24 * 60 * 60
-	maxAge          = fmt.Sprintf("max-age=%d, public", oneDaySeconds)
-	icoFileBytes    []byte
+	markhtmlJSBytes  = []byte(Files["markhtml.min.js"])
+	markhtmlCSSBytes = []byte(Files["markhtml.css"])
+	indexhtmlBytes   = []byte(Files["index.min.html"])
+	oneDaySeconds    = 24 * 60 * 60
+	maxAge           = fmt.Sprintf("max-age=%d, public", oneDaySeconds)
+	icoFileBytes     []byte
 )
 
 func init() {
@@ -29,7 +30,12 @@ func fastHTTPHandler(ctx *fasthttp.RequestCtx) {
 	path := string(ctx.Path())
 	if path == "/markhtml.js" {
 		ctx.SetContentType("application/javascript")
-		ctx.SetBody(markhtmljsBytes)
+		ctx.SetBody(markhtmlJSBytes)
+		return
+	}
+	if path == "/markhtml.css" {
+		ctx.SetContentType("text/style")
+		ctx.SetBody(markhtmlCSSBytes)
 		return
 	}
 	if path == "/favicon.ico" {

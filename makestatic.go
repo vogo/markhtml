@@ -16,6 +16,7 @@ import (
 var files = []string{
 	"index.min.html",
 	"markhtml.min.js",
+	"markhtml.css",
 }
 
 func main() {

@@ -7,43 +7,11 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gitalk/1.4.1/gitalk.css">
+    <link rel="stylesheet" href="/markhtml.css">
     <title>Index</title>
-    <style>
-        #menu {
-            font-size: 12px;
-            float: left;
-            position: fixed;
-        }
-
-        #menu ul {
-            padding: 0px;
-        }
-
-        #menu li {
-            margin-left: 10px
-        }
-
-        #menu a {
-            color: black
-        }
-
-        .main {
-            width: 800px;
-            margin: 0 auto;
-        }
-
-        input,
-        button {
-            padding: 10px;
-        }
-    </style>
 </head>
 
 <body>
-    <form id="editor" style="display:none" onsubmit="mh.loadurl(dom('url').value);return false;">
-        <input type="text" id="url" style="width:600px" placeholder="markdown url" />
-        <button type="submit">To HTML</button>
-    </form>
     <div id="menu"></div>
     <div class="markdown-body main" id="app"></div>
     <div class="main" id="gitalk"></div>
@@ -59,40 +27,6 @@
         ["\\[", "\\]"] ], processEscapes: true, skipTags: ["script", "noscript",
         "style", "textarea", "pre", "code", "a"] }, TeX: { Macros: { tr: "{\\scriptscriptstyle\\mathrm{T}}",
         } } });
-    </script>
-    <script>
-        var defaultHost = "doc.sisopipo.com"
-
-        function callbackAfterShow()
-        {
-            hljs.initHighlightingOnLoad();
-            if (mh.mdurl.indexOf(defaultHost) > 0)
-            {
-                NewGitalk().render('gitalk');
-            }
-            MathJax.Hub.Queue(
-                ["Typeset", MathJax.Hub, dom('app')], [
-                    "resetEquationNumbers", MathJax.InputJax.TeX
-                ]
-            );
-        }
-
-        function NewGitalk()
-        {
-            return new Gitalk(
-            {
-                clientID: 'eac079c4ec282da19220',
-                clientSecret: '0a7f98ef97c6bedb08214e97811214fd65b8e29c',
-                repo: 'wongoo.github.io',
-                owner: 'wongoo',
-                admin: ['wongoo'],
-                id: GenPageId(),
-                language: 'zh-CN',
-                distractionFreeMode: true
-            });
-        }
-        mh = markhtml(3, defaultHost);
-        window.onload = mh.loadmark;
     </script>
 </body>
 
