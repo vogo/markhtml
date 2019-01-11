@@ -141,16 +141,16 @@ function markhtml(level) {
             }
 
             // ----> navbar
-            navurl = mdUrlPrefix + "/" + "_navbar.md"
-            ajaxget(navurl, function(xmlhttp) {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    dom('navbar').innerHTML = marked(xmlhttp.responseText)
-                    return
-                }
+            // navurl = mdUrlPrefix + "/" + "_navbar.md"
+            // ajaxget(navurl, function(xmlhttp) {
+            //     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            //         dom('navbar').innerHTML = marked(xmlhttp.responseText)
+            //         return
+            //     }
 
-            }, function(err) {
-                console.log(err)
-            })
+            // }, function(err) {
+            //     console.log(err)
+            // })
 
             // ----> high lighting
             hljs.initHighlightingOnLoad();
