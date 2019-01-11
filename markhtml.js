@@ -30,10 +30,68 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+function ajaxget(url, success_callback, error_callback) {
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange = function() {
+        success_callback(xmlhttp)
+    };
+    xmlhttp.onerror = error_callback;
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
+function NewGitalk() {
+    return new Gitalk({
+        clientID: gitalk_client_id,
+        clientSecret: gitalk_client_secret,
+        repo: gitalk_repo,
+        owner: gitalk_user,
+        admin: [gitalk_user],
+        id: GenPageId(),
+        language: 'zh-CN',
+        distractionFreeMode: true
+    });
+}
+
+function GenPageId() {
+    var gid = document.location.href;
+    gid = gid.replace("http://", "");
+    gid = gid.replace("https://", "");
+    gid = gid.replace(gitalk_enable_host, "");
+    gid = gid.replace(".html", "");
+    gid = gid.replace(".md", "");
+    gid = gid.replace(".markdown", "");
+
+    if (gid[gid.length - 1] == '/') {
+        gid = gid.substr(0, gid.length - 1);
+    }
+    var len = gid.lastIndexOf("/");
+    if (gid.length - len > 25) {
+        gid = gid.substr(len + 1);
+    } else {
+        len = gid.lastIndexOf("/", len - 1);
+        if (gid.length - len > 25) {
+            gid = gid.substr(len + 1);
+        }
+    }
+    if (gid.length > 50) {
+        gid = gid.replace(/[\W]/g, "");
+    }
+    if (gid.length > 50) {
+        gid = gid.substr(gid.length - 50);
+    }
+    return gid;
+}
+
 function markhtml(level) {
     var mh = {
         level: level,
         mdurl: "",
+        loadsuccess: false,
         v: function(s) {
             if (s == "") {
                 s = "找不到你要访问的页面!";
@@ -50,9 +108,19 @@ function markhtml(level) {
                 mainTitle = "Markdown To HTML"
             }
             document.title = mainTitle.innerText;
-            if (callbackAfterShow && typeof callbackAfterShow == "function") {
-                callbackAfterShow()
+
+            if (!mh.loadsuccess) {
+                return
             }
+
+            // ----> mathjax
+            MathJax.Hub.Queue(
+                ["Typeset", MathJax.Hub, dom('app')], [
+                    "resetEquationNumbers", MathJax.InputJax.TeX
+                ]
+            );
+
+            // ----> image url
             mdHostPrefix = mh.mdurl.substr(0, mh.mdurl.indexOf("/", 10))
             mdUrlPrefix = mh.mdurl.substr(0, mh.mdurl.lastIndexOf("/"))
             images = document.getElementsByTagName("img")
@@ -68,11 +136,31 @@ function markhtml(level) {
                     img.src = mdUrlPrefix + "/" + src
                 }
             }
+
+            // ----> navbar
+            navurl = mdUrlPrefix + "/" + "_navbar.md"
+            ajaxget(navurl, function(xmlhttp) {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    dom('navbar').innerHTML = xmlhttp.responseText
+                    return
+                }
+
+            }, function(err) {
+                console.log(err)
+            })
+
+            // ----> high lighting
+            hljs.initHighlightingOnLoad();
+
+            // ----> gitalk
+            if (mh.mdurl.indexOf(gitalk_enable_host) > 0) {
+                NewGitalk().render('gitalk');
+            }
         },
 
         loadmark: function() {
             url = getParameterByName("url")
-            if (!endwith(url, ".markdown") && !endwith(url, ".md")) {
+            if (!endwith(url, "/") && !endwith(url, ".markdown") && !endwith(url, ".md")) {
                 mh.v("不支持的markdown地址: " + url);
                 return;
             }
@@ -80,15 +168,14 @@ function markhtml(level) {
         },
         loadurl: function(url) {
             mh.mdurl = url
-
-            dom("menu").innerHTML = ""
-            if (window.XMLHttpRequest) {
-                xmlhttp = new XMLHttpRequest();
-            } else {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            if (endwith(url, "/")) {
+                mh.mdurl = mh.mdurl + "README.md"
             }
-            xmlhttp.onreadystatechange = function() {
+            dom("menu").innerHTML = ""
+            mh.loadsuccess = false
+            ajaxget(mh.mdurl, function(xmlhttp) {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    mh.loadsuccess = true
                     mh.v(marked(xmlhttp.responseText));
                     return
                 }
@@ -99,12 +186,10 @@ function markhtml(level) {
                 if (xmlhttp.status >= 400) {
                     mh.v("无法加载请求页面")
                 }
-            }
-            xmlhttp.onerror = function(err) {
+            }, function(err) {
+                console.log(err)
                 mh.v(err)
-            };
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
+            })
         },
         buildmenu: function() {
             var html = dom("app").innerHTML;
@@ -160,63 +245,6 @@ function markhtml(level) {
         },
     };
     return mh;
-}
-
-function GenPageId() {
-    var gid = document.location.href;
-    gid = gid.replace("http://", "");
-    gid = gid.replace("https://", "");
-    gid = gid.replace("sisopipo.com", "");
-    gid = gid.replace(".html", "");
-    gid = gid.replace(".md", "");
-    gid = gid.replace(".markdown", "");
-
-    if (gid[gid.length - 1] == '/') {
-        gid = gid.substr(0, gid.length - 1);
-    }
-    var len = gid.lastIndexOf("/");
-    if (gid.length - len > 25) {
-        gid = gid.substr(len + 1);
-    } else {
-        len = gid.lastIndexOf("/", len - 1);
-        if (gid.length - len > 25) {
-            gid = gid.substr(len + 1);
-        }
-    }
-    if (gid.length > 50) {
-        gid = gid.replace(/[\W]/g, "");
-    }
-    if (gid.length > 50) {
-        gid = gid.substr(gid.length - 50);
-    }
-    return gid;
-}
-
-var defaultHost = "doc.sisopipo.com"
-
-function callbackAfterShow() {
-    hljs.initHighlightingOnLoad();
-    if (mh.mdurl.indexOf(defaultHost) > 0) {
-        NewGitalk().render('gitalk');
-    }
-    MathJax.Hub.Queue(
-        ["Typeset", MathJax.Hub, dom('app')], [
-            "resetEquationNumbers", MathJax.InputJax.TeX
-        ]
-    );
-}
-
-function NewGitalk() {
-    return new Gitalk({
-        clientID: 'eac079c4ec282da19220',
-        clientSecret: '0a7f98ef97c6bedb08214e97811214fd65b8e29c',
-        repo: 'wongoo.github.io',
-        owner: 'wongoo',
-        admin: ['wongoo'],
-        id: GenPageId(),
-        language: 'zh-CN',
-        distractionFreeMode: true
-    });
 }
 
 mh = markhtml(3);
