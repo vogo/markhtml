@@ -100,6 +100,9 @@ function markhtml(level) {
             app.innerHTML = s;
             h1 = document.getElementsByTagName("h1");
             mainTitle = ""
+            if (h1.length <= 0) {
+                h1 = document.getElementsByTagName("h2");
+            }
             if (h1.length > 0) {
                 mainTitle = h1[0];
                 mh.buildmenu()
@@ -141,7 +144,7 @@ function markhtml(level) {
             navurl = mdUrlPrefix + "/" + "_navbar.md"
             ajaxget(navurl, function(xmlhttp) {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    dom('navbar').innerHTML = xmlhttp.responseText
+                    dom('navbar').innerHTML = marked(xmlhttp.responseText)
                     return
                 }
 
