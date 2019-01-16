@@ -23,6 +23,6 @@ static: min
 	go run makestatic.go
 
 build: static
-	GOOS=linux go build -o markhtml main.go static.go
+	GOOS=linux go build  -ldflags '-s -w' -o markhtml main.go static.go
 
 
