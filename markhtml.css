@@ -17,7 +17,7 @@
  }
 
  .main {
-     width: 800px;
+     width-max: 800px;
      margin: 0 auto;
  }
 

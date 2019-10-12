@@ -23,7 +23,7 @@ function hfmt(text) {
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
         results = regex.exec(url);
     if (!results) return null;
     if (!results[2]) return '';
@@ -58,7 +58,7 @@ function NewGitalk() {
 }
 
 function GenPageId() {
-    var gid = document.location.href;
+    let gid = document.location.href;
     gid = gid.replace("http://", "");
     gid = gid.replace("https://", "");
     gid = gid.replace(gitalk_enable_host, "");
@@ -69,7 +69,7 @@ function GenPageId() {
     if (gid[gid.length - 1] == '/') {
         gid = gid.substr(0, gid.length - 1);
     }
-    var len = gid.lastIndexOf("/");
+    let len = gid.lastIndexOf("/");
     if (gid.length - len > 25) {
         gid = gid.substr(len + 1);
     } else {
@@ -88,7 +88,7 @@ function GenPageId() {
 }
 
 function markhtml(level) {
-    var mh = {
+    let mh = {
         level: level,
         mdurl: "",
         loadsuccess: false,
@@ -195,12 +195,15 @@ function markhtml(level) {
             })
         },
         buildmenu: function() {
-            var html = dom("app").innerHTML;
-            var pattern = new RegExp("<h([1-" + mh.level + "]) id=\"([^\"]+)\"", "g");
+            if(window.innerWidth < 900){
+                return
+            }
+            let html = dom("app").innerHTML;
+            let pattern = new RegExp("<h([1-" + mh.level + "]) id=\"([^\"]+)\"", "g");
 
-            var previousLi = dom("menu");
-            var previousLevel = 0;
-            var previousUl;
+            let previousLi = dom("menu");
+            let previousLevel = 0;
+            let previousUl;
 
             while ((matchArr = pattern.exec(html))) {
                 level = parseInt(matchArr[1])
@@ -208,7 +211,7 @@ function markhtml(level) {
                 h = dom(id)
                 link = mh.makeLink(h)
 
-                var ul;
+                let ul;
 
                 if (level > previousLevel) {
                     ul = ndom('ul')
@@ -229,9 +232,9 @@ function markhtml(level) {
         },
 
         makeLink: function(h) {
-            var link = ndom('li')
+            let link = ndom('li')
             window.arst = h
-            var text = [].slice.call(h.childNodes).map(function(node) {
+            let text = [].slice.call(h.childNodes).map(function(node) {
                 if (node.nodeType === Node.TEXT_NODE) {
                     return node.nodeValue
                 } else if (['CODE', 'SPAN'].indexOf(node.tagName) !== -1) {
