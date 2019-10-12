@@ -1,27 +1,27 @@
- #menu {
-     font-size: 12px;
-     float: left;
-     position: fixed;
- }
+#menu {
+    font-size: 12px;
+    float: left;
+    position: fixed;
+}
 
- #menu ul {
-     padding: 0px;
- }
+#menu ul {
+    padding: 0px;
+}
 
- #menu li {
-     margin-left: 10px
- }
+#menu li {
+    margin-left: 10px
+}
 
- #menu a {
-     color: black
- }
+#menu a {
+    color: black
+}
 
- .main {
-     width-max: 800px;
-     margin: 0 auto;
- }
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+}
 
- input,
- button {
-     padding: 10px;
- }
+input,
+button {
+    padding: 10px;
+}
