@@ -5,7 +5,7 @@ A markdown viewer
 Feature:
 - mathjax support
 - gitalk
-- fast navigates menu
+- navigates menu
 
 TODO:
 - beautiful code style 

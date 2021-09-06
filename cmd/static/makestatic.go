@@ -1,5 +1,3 @@
-//+build dev
-
 package main
 
 import (
@@ -10,49 +8,44 @@ import (
 	"go/format"
 	"io/ioutil"
 	"os"
+	"strconv"
 	"unicode/utf8"
 )
 
-var files = []string{
-	"index.min.html",
-	"markhtml.min.js",
-	"markhtml.css",
-}
-
 func main() {
-	err := domake()
+	target := os.Args[1]
+	withFavicon, _ := strconv.ParseBool(os.Args[2])
+	files := os.Args[3:]
+	err := doMake(target, withFavicon, files)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		_, _ = fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 
 }
-func domake() (err error) {
-	f, err := os.Create("static.go")
-	if err != nil {
-		return
-	}
-	defer f.Close()
+func doMake(target string, withFavicon bool, files []string) (err error) {
 	buf := new(bytes.Buffer)
 
-	fmt.Fprintf(buf, "package main\n\n")
+	_, _ = fmt.Fprintf(buf, "package main\n\n")
 
-	if err = makestatic(buf); err != nil {
+	if err = makeStatic(buf, files); err != nil {
 		return
 	}
 
-	if err = readIco(buf); err != nil {
-		return
+	if withFavicon {
+		if err = readIco(buf); err != nil {
+			return
+		}
 	}
 
-	fmtbuf, err := format.Source(buf.Bytes())
+	fmtBuf, err := format.Source(buf.Bytes())
 	if err != nil {
 		return
 	}
-	return ioutil.WriteFile("static.go", fmtbuf, 0666)
+	return ioutil.WriteFile(target, fmtBuf, 0666)
 }
 
-func makestatic(buf *bytes.Buffer) error {
+func makeStatic(buf *bytes.Buffer, files []string) error {
 	fmt.Fprintf(buf, "var Files = map[string]string{\n")
 	for _, fn := range files {
 		b, err := ioutil.ReadFile(fn)

@@ -3,39 +3,41 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css">
-    <link rel="stylesheet" href="//cdn.staticfile.org/highlight.js/9.15.10/styles/default.min.css">
-    <link rel="stylesheet" href="//cdn.staticfile.org/gitalk/1.5.0/gitalk.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css">
+    <link rel="stylesheet" href="//cdn.staticfile.org/highlight.js/11.2.0/styles/default.min.css">
+    <link rel="stylesheet" href="//cdn.staticfile.org/gitalk/1.7.2/gitalk.css">
     <link rel="stylesheet" href="/markhtml.css">
     <title>Index</title>
 </head>
 
 <body>
-    <div id="navbar"></div>
-    <div id="menu"></div>
-    <div class="markdown-body main" id="app"></div>
-    <div class="main" id="gitalk"></div>
-    <script src="//cdn.staticfile.org/marked/0.7.0/marked.min.js"></script>
-    <script src="//cdn.staticfile.org/highlight.js/9.15.10/highlight.min.js"></script>
-    <script src="//cdn.staticfile.org/gitalk/1.5.0/gitalk.min.js"></script>
-    <script async src="//cdn.staticfile.org/mathjax/2.7.6/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script>
-        var gitalk_enable_host = "sisopipo.com"
-        var gitalk_client_id = "eac079c4ec282da19220"
-        var gitalk_client_secret = "0a7f98ef97c6bedb08214e97811214fd65b8e29c"
-        var gitalk_repo = "wongoo.github.io"
-        var gitalk_user = "wongoo"
-    </script>
-    <script src="/markhtml.js"></script>
-    <script type="text/x-mathjax-config">
+<div id="navbar"></div>
+<div id="menu"></div>
+<div class="markdown-body main" id="app"></div>
+<div class="main" id="gitalk"></div>
+<script src="//cdn.staticfile.org/marked/3.0.2/marked.min.js"></script>
+<script src="//cdn.staticfile.org/highlight.js/11.2.0/highlight.min.js"></script>
+<script src="//cdn.staticfile.org/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.staticfile.org/mathjax/3.2.0/es5/latest.min.js?config=TeX-MML-AM_CHTML"></script>
+<script src="/markhtml.min.js"></script>
+<script type="text/x-mathjax-config">
         MathJax.Hub.Config( { showProcessingMessages: false,messageStyle: "none", "HTML-CSS":
         { linebreaks: { automatic: false }, availableFonts: ["STIX", "TeX"]}, tex2jax:
         { inlineMath: [ ["$", "$"], ["\\(", "\\)"] ], displayMath: [ ["$$", "$$"],
         ["\\[", "\\]"] ], processEscapes: true, skipTags: ["script", "noscript",
         "style", "textarea", "pre", "code", "a"] }, TeX: { Macros: { tr: "{\\scriptscriptstyle\\mathrm{T}}",
         } } });
-    </script>
+        MathJax.Hub.Queue(
+        ["Typeset", MathJax.Hub, dom('app')], [
+            "resetEquationNumbers", MathJax.InputJax.TeX
+        ]
+    );
+</script>
+<script>
+    loadmark();
+</script>
 </body>
 
 </html>

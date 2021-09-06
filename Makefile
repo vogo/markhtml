@@ -1,28 +1,32 @@
 # npm install -g js-beautify
 # npm install -g uglify-js
 # npm install -g html-minifier-cli
-#
-
-# ----------------------------------
-src: index.html markhtml.js
-	cp index.html index.min.html
-	cp markhtml.js markhtml.min.js
-
-src-static: src
-	go run makestatic.go
-
-run: src-static
-	go run main.go static.go
 
 #------------------------------------
-min: index.html markhtml.js
-	uglifyjs  markhtml.js -c -m -o  markhtml.min.js
-	htmlmin -o index.min.html index.html	
 
-static: min 
-	go run makestatic.go
 
-build: static
-	GOOS=linux go build  -ldflags '-s -w' -o markhtml main.go static.go
+static-bin:
+	go build -o dist/makestatic cmd/static/*.go
+
+marksvr_min: index.html
+	uglifyjs  marktool.js markurl.js marktitle.js markmenu.js markmath.js markhighlight.js markgittalk.js markload.js -c -m -o  markhtml.min.js
+	htmlmin -o index.min.html index.html
+
+marksvr_static: static-bin marksvr_min
+	./dist/makestatic ./cmd/marksvr/static.go true index.min.html markhtml.min.js markhtml.css
+
+markhtml_min:
+	uglifyjs  marktool.js marktitle.js markmenu.js markhighlight.js markgittalk.js -c -m -o  markrender.min.js
+
+markhtml_static: static-bin markhtml_min
+	./dist/makestatic ./cmd/markhtml/static.go false index-template-prefix.html index-template-suffix.html markhtml.css
+
+build: marksvr_static markhtml_static
+	go build  -ldflags '-s -w' -o dist/marksvr cmd/marksvr/*.go
+	go build  -ldflags '-s -w' -o dist/markhtml cmd/markhtml/*.go
+
+build_linux: marksvr_static markhtml_static
+	GOOS=linux go build  -ldflags '-s -w' -o dist/marksvr cmd/marksvr/*.go
+	GOOS=linux go build  -ldflags '-s -w' -o dist/markhtml cmd/markhtml/*.go
 
 

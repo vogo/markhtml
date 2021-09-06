@@ -1,5 +1,6 @@
-markhtml
 static.go
-index.min.html
-markhtml.min.js
+*.min.html
+*.min.js
 .idea
+dist
+package-lock.json
