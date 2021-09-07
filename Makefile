@@ -9,7 +9,7 @@ static-bin:
 	go build -o dist/makestatic cmd/static/*.go
 
 marksvr_min: index.html
-	uglifyjs  marktool.js markurl.js marktitle.js markmenu.js markmath.js markhighlight.js markgittalk.js markload.js -c -m -o  markhtml.min.js
+	uglifyjs  marktool.js markurl.js marktitle.js markmenu.js markhighlight.js markgittalk.js markload.js -c -m -o  markhtml.min.js
 	htmlmin -o index.min.html index.html
 
 marksvr_static: static-bin marksvr_min

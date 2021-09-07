@@ -1,7 +1,6 @@
-
-var gitalk_enable_host = "sisopipo.com";
-var gitalk_client_id = "eac079c4ec282da19220";
-var gitalk_client_secret = "0a7f98ef97c6bedb08214e97811214fd65b8e29c";
+var gitalk_enable_host = "wongoo.github.io";
+var gitalk_client_id = "36302f69a92e0bddf32a";
+var gitalk_client_secret = "f4bac053e89397b54fcf524b8a399a3ebb09c199";
 var gitalk_repo = "wongoo.github.io";
 var gitalk_user = "wongoo";
 
@@ -20,7 +19,6 @@ function NewGitalk() {
 }
 
 function GenGitTalkPageId() {
-
     var gid = document.location.href;
     gid = gid.replace("http://", "");
     gid = gid.replace("https://", "");
@@ -31,6 +29,10 @@ function GenGitTalkPageId() {
 
     if (gid[gid.length - 1] === '/') {
         gid = gid.substr(0, gid.length - 1);
+    }
+    var index = gid.lastIndexOf("#");
+    if (index > 0) {
+        gid = gid.substr(0, index);
     }
     var len = gid.lastIndexOf("/");
     if (gid.length - len > 25) {
@@ -47,6 +49,9 @@ function GenGitTalkPageId() {
     if (gid.length > 50) {
         gid = gid.substr(gid.length - 50);
     }
+
+    gid = gid.replaceAll("/", "-");
+
     return gid;
 }
 
