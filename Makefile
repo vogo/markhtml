@@ -29,4 +29,5 @@ build_linux: marksvr_static markhtml_static
 	GOOS=linux go build  -ldflags '-s -w' -o dist/marksvr cmd/marksvr/*.go
 	GOOS=linux go build  -ldflags '-s -w' -o dist/markhtml cmd/markhtml/*.go
 
-
+install: markhtml_static
+	go install cmd/markhtml/*.go
