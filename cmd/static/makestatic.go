@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"go/format"
-	"io/ioutil"
+	"io"
 	"os"
 	"strconv"
 	"unicode/utf8"
@@ -42,13 +42,13 @@ func doMake(target string, withFavicon bool, files []string) (err error) {
 	if err != nil {
 		return
 	}
-	return ioutil.WriteFile(target, fmtBuf, 0666)
+	return os.WriteFile(target, fmtBuf, 0666)
 }
 
 func makeStatic(buf *bytes.Buffer, files []string) error {
 	fmt.Fprintf(buf, "var Files = map[string]string{\n")
 	for _, fn := range files {
-		b, err := ioutil.ReadFile(fn)
+		b, err := os.ReadFile(fn)
 		if err != nil {
 			return err
 		}
@@ -67,7 +67,7 @@ func makeStatic(buf *bytes.Buffer, files []string) error {
 func readIco(buf *bytes.Buffer) error {
 	f, _ := os.Open("./favicon.ico")
 	reader := bufio.NewReader(f)
-	content, err := ioutil.ReadAll(reader)
+	content, err := io.ReadAll(reader)
 	if err != nil {
 		return err
 	}

@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -261,7 +260,7 @@ func markdown2html(from string, to string) error {
 	buf.Write(markBuf)
 	buf.WriteString(Files["index-template-suffix.html"])
 
-	if err = ioutil.WriteFile(to, buf.Bytes(), os.ModePerm); err != nil {
+	if err = os.WriteFile(to, buf.Bytes(), os.ModePerm); err != nil {
 		return err
 	}
 
