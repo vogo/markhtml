@@ -15,10 +15,10 @@ marksvr_min: index.html
 marksvr_static: static-bin marksvr_min
 	./dist/makestatic ./cmd/marksvr/static.go true index.min.html markhtml.min.js markhtml.css
 
-markhtml_min:
-	uglifyjs  marktool.js marktitle.js markmenu.js markhighlight.js markgittalk.js -c -m -o  markrender.min.js
+markrender_min:
+	uglifyjs  marktool.js marktitle.js markmenu.js markhighlight.js markgittalk.js markrenderctl.js -c -m -o  markrender.min.js
 
-markhtml_static: static-bin markhtml_min
+markhtml_static: static-bin markrender_min
 	./dist/makestatic ./cmd/markhtml/static.go false index-template-prefix.html index-template-suffix.html markhtml.css
 
 build: marksvr_static markhtml_static
