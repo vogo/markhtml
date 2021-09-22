@@ -125,6 +125,10 @@ func convertDir(src string, target string) error {
 func buildIndexMarkdown(src string, target string, indexLinks []string) error {
 	srcIndexMd := filepath.Join(src, "index.md")
 	indexBuf := bytes.NewBuffer(nil)
+
+	indexBuf.WriteString("# " + filepath.Base(src))
+	indexBuf.WriteString("\n\n")
+
 	for _, link := range indexLinks {
 		indexBuf.WriteString(link)
 		indexBuf.WriteByte('\n')
