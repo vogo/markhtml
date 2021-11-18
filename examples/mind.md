@@ -10,8 +10,10 @@ markmeta_tags: mind
 
 this is a mind map
 
-```markmind
+```mindmap
 * main
     - sub 1
+        - third level 1
+        - third level 2
     - sub 2
 ```
