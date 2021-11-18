@@ -59,6 +59,7 @@ function markgittalk() {
     let g = ndom("div");
     g.setAttribute("id", "gitalk")
     g.classList.add("main");
+    g.classList.add("no-print")
     document.body.append(g);
     NewGitalk().render('gitalk');
 }

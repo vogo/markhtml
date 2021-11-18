@@ -2,6 +2,12 @@
 @import "//cdn.staticfile.org/highlight.js/11.2.0/styles/default.min.css";
 @import "//cdn.staticfile.org/gitalk/1.7.2/gitalk.css";
 
+@media print {
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+
 #menu {
     font-size: 12px;
     float: left;
@@ -15,6 +21,7 @@
 #menu li {
     margin-left: 10px
 }
+
 
 #menu a {
     color: black

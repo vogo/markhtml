@@ -18,3 +18,13 @@ function loadScript(id, url, callback) {
 
     return 0;
 }
+
+function loadCss(url){
+    let head  = document.getElementsByTagName('head')[0];
+    let link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = url;
+    link.media = 'all';
+    head.appendChild(link);
+}

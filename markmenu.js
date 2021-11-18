@@ -1,34 +1,36 @@
-function markmenu(level) {
+function markmenu(menuLevel) {
     if (window.innerWidth < 900) {
         return
     }
-    var h1 = document.getElementsByTagName("h1");
+    let h1 = document.getElementsByTagName("h1");
     if (h1.length <= 0) {
         h1 = document.getElementsByTagName("h2");
     }
     if (h1.length <= 0) {
         return;
     }
-    var menuWidth = (window.innerWidth - 860) / 2;
-    var html = dom("app").innerHTML;
-    var pattern = new RegExp("<h([1-" + level + "]) id=\"([^\"]+)\"", "g");
+    let menuWidth = (window.innerWidth - 860) / 2;
+    let html = dom("app").innerHTML;
+    let pattern = new RegExp("<h([1-" + menuLevel + "]) id=\"([^\"]+)\"", "g");
 
-    var previousLi = dom("menu");
-    var previousLevel = 0;
-    var previousUl;
+    let previousLi = dom("menu");
+    previousLi.classList.add("no-print");
+    
+    let previousLevel = 0;
+    let previousUl;
 
-    var matchArr;
-    var level;
-    var id;
-    var h;
-    var link;
+    let matchArr;
+    let level;
+    let id;
+    let h;
+    let link;
     while ((matchArr = pattern.exec(html))) {
         level = parseInt(matchArr[1])
         id = matchArr[2]
         h = dom(id)
         link = makeLink(h, menuWidth)
 
-        var ul;
+        let ul;
 
         if (level > previousLevel) {
             ul = ndom('ul')
@@ -49,10 +51,10 @@ function markmenu(level) {
 }
 
 function makeLink(h, menuWidth) {
-    var link = ndom('li')
+    let link = ndom('li')
     link.style.width = menuWidth;
     window.arst = h
-    var text = [].slice.call(h.childNodes).map(function (node) {
+    let text = [].slice.call(h.childNodes).map(function (node) {
         if (node.nodeType === Node.TEXT_NODE) {
             return node.nodeValue
         } else if (['CODE', 'SPAN'].indexOf(node.tagName) !== -1) {
