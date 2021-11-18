@@ -13,3 +13,4 @@ function marktitle() {
     document.title = mainTitle.innerText;
 }
 
+marktitle();

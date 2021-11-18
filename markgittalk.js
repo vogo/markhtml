@@ -56,6 +56,10 @@ function GenGitTalkPageId() {
 }
 
 function markgittalk() {
+    let g = ndom("div");
+    g.setAttribute("id", "gitalk")
+    g.classList.add("main");
+    document.body.append(g);
     NewGitalk().render('gitalk');
 }
 
