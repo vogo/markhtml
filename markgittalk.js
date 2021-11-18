@@ -59,4 +59,6 @@ function markgittalk() {
     NewGitalk().render('gitalk');
 }
 
-
+loadScript("", "//cdn.staticfile.org/gitalk/1.7.2/gitalk.min.js", function () {
+    markgittalk();
+});
