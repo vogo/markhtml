@@ -243,7 +243,7 @@ func copyTo(from string, to string) error {
 		return openErr
 	}
 
-	_, err := io.Copy(src, target)
+	_, err := io.Copy( target,src)
 
 	return err
 
