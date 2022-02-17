@@ -1,6 +1,3 @@
-static.go
-*.min.html
-*.min.js
 .idea
 dist
 package-lock.json

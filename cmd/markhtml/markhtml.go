@@ -254,7 +254,7 @@ func markdown2html(from string, to string) error {
 	fmt.Printf("markdown2html %s to %s\n", from, to)
 
 	buf := new(bytes.Buffer)
-	buf.WriteString(Files["index-template-prefix.html"])
+	buf.Write(indexTemplatePrefixHTML)
 
 	markBuf, err := bash("marked " + from)
 	if err != nil {
@@ -262,7 +262,7 @@ func markdown2html(from string, to string) error {
 	}
 
 	buf.Write(markBuf)
-	buf.WriteString(Files["index-template-suffix.html"])
+	buf.Write(indexTemplateSuffixHTML)
 
 	if err = os.WriteFile(to, buf.Bytes(), os.ModePerm); err != nil {
 		return err

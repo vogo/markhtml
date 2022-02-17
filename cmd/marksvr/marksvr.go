@@ -1,28 +1,15 @@
 package main
 
 import (
-	"encoding/base64"
 	"fmt"
 
 	"github.com/valyala/fasthttp"
 )
 
 var (
-	markhtmlJSBytes  = []byte(Files["markhtml.min.js"])
-	markhtmlCSSBytes = []byte(Files["markhtml.css"])
-	indexhtmlBytes   = []byte(Files["index.min.html"])
-	oneDaySeconds    = 24 * 60 * 60
-	maxAge           = fmt.Sprintf("max-age=%d, public", oneDaySeconds)
-	icoFileBytes     []byte
+	oneDaySeconds = 24 * 60 * 60
+	maxAge        = fmt.Sprintf("max-age=%d, public", oneDaySeconds)
 )
-
-func init() {
-	var err error
-	icoFileBytes, err = base64.StdEncoding.DecodeString(IcoFile)
-	if err != nil {
-		panic(err)
-	}
-}
 
 func fastHTTPHandler(ctx *fasthttp.RequestCtx) {
 	ctx.SetStatusCode(fasthttp.StatusOK)
@@ -49,5 +36,5 @@ func fastHTTPHandler(ctx *fasthttp.RequestCtx) {
 
 func main() {
 	fmt.Printf("start markhtml")
-	fasthttp.ListenAndServe(":80", fastHTTPHandler)
+	_ = fasthttp.ListenAndServe(":80", fastHTTPHandler)
 }
