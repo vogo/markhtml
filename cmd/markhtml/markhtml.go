@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -81,7 +82,10 @@ func convertDir(src string, target string) error {
 				return err
 			}
 
-			indexLinks = append(indexLinks, "- ["+name+"]("+name+")")
+			// not create link for images directory for only static file in it.
+			if name != "images" {
+				indexLinks = append(indexLinks, "- ["+name+"]("+name+")")
+			}
 
 			continue
 		}
@@ -129,7 +133,11 @@ func buildIndexMarkdown(src string, target string, indexLinks []string) error {
 	indexBuf.WriteString("# " + filepath.Base(src))
 	indexBuf.WriteString("\n\n")
 
-	for _, link := range indexLinks {
+	sort.Strings(indexLinks)
+
+	// link list sort by date desc
+	for i := len(indexLinks) - 1; i >= 0; i-- {
+		link := indexLinks[i]
 		indexBuf.WriteString(link)
 		indexBuf.WriteByte('\n')
 	}
@@ -243,7 +251,7 @@ func copyTo(from string, to string) error {
 		return openErr
 	}
 
-	_, err := io.Copy( target,src)
+	_, err := io.Copy(target, src)
 
 	return err
 
