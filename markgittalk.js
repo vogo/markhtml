@@ -56,14 +56,16 @@ function GenGitTalkPageId() {
 }
 
 function markgittalk() {
-    let g = ndom("div");
-    g.setAttribute("id", "gitalk")
-    g.classList.add("main");
-    g.classList.add("no-print")
-    document.body.append(g);
-    NewGitalk().render('gitalk');
+    if (validvar(gitalk_enable_host) && validvar(gitalk_client_id) && validvar(gitalk_client_secret) && validvar(gitalk_repo) && validvar(gitalk_user)) {
+        let g = ndom("div");
+        g.setAttribute("id", "gitalk")
+        g.classList.add("main");
+        g.classList.add("no-print")
+        document.body.append(g);
+        NewGitalk().render('gitalk');
+    }
 }
 
-loadScript("", "//cdn.staticfile.org/gitalk/1.7.2/gitalk.min.js", function () {
+loadScript("", "//cdn.staticfile.org/gitalk/1.8.0/gitalk.min.js", function () {
     markgittalk();
 });

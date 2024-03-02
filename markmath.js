@@ -22,6 +22,6 @@ function markmath() {
     };
 }
 
-loadScript("MathJax-script", "//cdn.staticfile.org/mathjax/3.2.0/es5/tex-mml-chtml.min.js", function () {
+loadScript("MathJax-script", "//cdn.staticfile.org/mathjax/3.2.2/es5/tex-mml-chtml.min.js", function () {
     markmath();
 })

@@ -18,3 +18,7 @@ function hfmt(text) {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
 }
+
+function validvar(v) {
+  return typeof v !== 'undefined' && v !== null
+}

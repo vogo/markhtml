@@ -1,16 +1,16 @@
-module github.com/wongoo/markhtml
+module github.com/vogo/markhtml
 
-go 1.18
+go 1.22.0
 
 require (
-	github.com/klauspost/compress v1.14.2 // indirect
-	github.com/valyala/fasthttp v1.33.0
+	github.com/klauspost/compress v1.17.7 // indirect
+	github.com/valyala/fasthttp v1.52.0
 )
 
-require github.com/vogo/vogo v0.0.0-20210123113352-5c0b9fc41f4d
+require github.com/vogo/vogo v0.0.0-20230804073359-3d16465679a2
 
 require (
-	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/vogo/logger v1.3.0 // indirect
+	github.com/vogo/logger v1.5.1 // indirect
 )
