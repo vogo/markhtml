@@ -353,6 +353,12 @@ function loadmark(url) {
     })
 }
 
+function cc40() {
+    let cc = ndom("footer");
+    cc.innerHTML='<p>本文章采用<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">知识共享 署名-相同方式共享 4.0 国际许可协议</a>进行许可。</p>';
+    document.body.append(cc);
+}
+
 function markhtml(){
     if (dom("app").innerText != "") {
         marktitle();
@@ -361,6 +367,7 @@ function markhtml(){
         renderHighlight();
         renderMind();
         renderMath();
+        cc40();
         renderGitTalk();
         return;
     }
