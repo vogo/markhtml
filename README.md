@@ -6,23 +6,15 @@
 - highlight
 - render mind map 
 
-## how to use
+## How to Use
 
 1. install commands
 ```bash
 # install markhtml command tool
-make install
-
-# generate markdown render javascript library markrender.min.js
-make markrender_min
+go install github.com/vogo/markhtml/cmd/markhtml@master
 ```
 
-2. copy the following files to website:
-- markrender.min.js
-- markhtml.css
-- lib/markmind_render.js
-
-3. create markdown with following headers, like [mind.md](/examples/mind.md)
+2. create markdown with following headers, like [mind.md](/examples/mind.md)
 ```
 <!---
 markmeta_author: wongoo
@@ -38,4 +30,4 @@ markmeta_tags: markdown,html,example
 markhtml <markdown_dir> <html_dir>
 ```
 
-5. then you can view your html pages, like [okr.html](https://wongoo.github.io/note/okr/okr.html)
+5. then you can view your html pages, like [mind.html](https://vogo.github.io/markhtml/examples/mind.html)
