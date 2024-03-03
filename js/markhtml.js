@@ -269,11 +269,11 @@ function GenGitTalkPageId() {
 }
 
 function markgittalk() {
-    if (validvar(gitalk_enable_host) &&
-        validvar(gitalk_client_id) &&
-        validvar(gitalk_client_secret) &&
-        validvar(gitalk_repo) &&
-        validvar(gitalk_user)) {
+    if ( typeof gitalk_enable_host !== 'undefined' &&
+         typeof gitalk_client_id !== 'undefined' &&
+         typeof gitalk_client_secret !== 'undefined' &&
+         typeof gitalk_repo !== 'undefined' &&
+         typeof gitalk_user !== 'undefined') {
         let g = ndom("div");
         g.setAttribute("id", "gitalk")
         g.classList.add("main");
