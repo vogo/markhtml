@@ -1,6 +1,6 @@
-@import "//cdn.staticfile.org/github-markdown-css/5.5.0/github-markdown.min.css";
-@import "//cdn.staticfile.org/highlight.js/11.9.0/styles/default.min.css";
-@import "//cdn.staticfile.org/gitalk/1.8.0/gitalk.css";
+@import "//cdn.staticfile.net/github-markdown-css/5.5.0/github-markdown.min.css";
+@import "//cdn.staticfile.net/highlight.js/11.9.0/styles/default.min.css";
+@import "//cdn.staticfile.net/gitalk/1.8.0/gitalk.css";
 
 @media print {
     .no-print, .no-print * {

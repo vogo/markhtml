@@ -161,7 +161,7 @@ function markhighlight() {
 }
 
 function renderHighlight() {
-    loadScript("", "//cdn.staticfile.org/highlight.js/11.9.0/highlight.min.js", function () {
+    loadScript("", "//cdn.staticfile.net/highlight.js/11.9.0/highlight.min.js", function () {
         markhighlight()
     });
 }
@@ -191,7 +191,7 @@ function markmath() {
 }
 
 function renderMath() {
-    loadScript("MathJax-script", "//cdn.staticfile.org/mathjax/3.2.2/es5/tex-mml-chtml.min.js", function () {
+    loadScript("MathJax-script", "//cdn.staticfile.net/mathjax/3.2.2/es5/tex-mml-chtml.min.js", function () {
         markmath();
     })
 }
@@ -284,7 +284,7 @@ function markgittalk() {
 }
 
 function renderGitTalk() {
-    loadScript("", "//cdn.staticfile.org/gitalk/1.8.0/gitalk.min.js", function () {
+    loadScript("", "//cdn.staticfile.net/gitalk/1.8.0/gitalk.min.js", function () {
         markgittalk();
     });
 }
@@ -353,6 +353,12 @@ function loadmark(url) {
     })
 }
 
+function renderMarkUrl(url) {
+    loadScript("", "//cdn.staticfile.net/marked/11.1.1/marked.min.js", function () {
+        loadmark(url);
+    }
+}
+
 function cc40() {
     let cc = ndom("footer");
     cc.innerHTML='<p>版权声明：本文章采用<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">知识共享 署名-相同方式共享 4.0 国际许可协议</a>进行许可。</p>';
@@ -377,7 +383,7 @@ function markhtml(){
         console.log("不支持的markdown地址: " + url);
         return;
     }
-    loadmark(url);
+    renderMarkUrl(url);
 }
 
 markhtml();
