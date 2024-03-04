@@ -356,7 +356,7 @@ function loadmark(url) {
 function renderMarkUrl(url) {
     loadScript("", "//cdn.staticfile.net/marked/11.1.1/marked.min.js", function () {
         loadmark(url);
-    }
+    })
 }
 
 function cc40() {
