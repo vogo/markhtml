@@ -10,7 +10,7 @@
 
 1. install commands
 ```bash
-sudo npm install markdown2html -g
+sudo npm install marked -g
 
 # install markhtml command tool
 go install github.com/vogo/markhtml/cmd/markhtml@master
