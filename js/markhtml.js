@@ -366,6 +366,8 @@ function cc40() {
 }
 
 function markhtml(){
+    document.documentElement.setAttribute('data-theme', 'light');
+  
     if (dom("app").innerText != "") {
         marktitle();
         markmenu(3);
