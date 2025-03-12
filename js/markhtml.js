@@ -167,7 +167,6 @@ function makeLink(h, menuWidth) {
     return link
 }
 
-// ----> high lighting
 function markhighlight() {
     hljs.highlightAll();
 }
