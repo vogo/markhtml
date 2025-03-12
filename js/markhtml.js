@@ -96,34 +96,42 @@ function markmenu() {
     }
     let menuWidth = (window.innerWidth - 860) / 2;
 
-    let headings = document.querySelectorAll('h1, h2, h3');
-
     let previousLi = dom("menu");
     previousLi.classList.add("no-print");
 
     let previousLevel = 0;
     let previousUl;
-    let idSeq = 1;
+    let h1Seq = 0;
+    let h2Seq = 0;
+    let h3Seq = 0;
     let link;
+
+    let headings = document.querySelectorAll('h1, h2, h3');
     headings.forEach(heading => {
-        heading.setAttribute("id", "heading_" + idSeq++);
+        link = makeLink(heading, menuWidth)
+        if (link === null) {
+            return;
+        }
 
         let level;
         switch (heading.tagName.toLowerCase()) {
             case 'h1':
                 level = 1;
+                h1Seq++;
                 break;
             case 'h2':
                 level = 2;
+                h2Seq++;
                 break;
             case 'h3':
                 level = 3;
+                h3Seq++;
                 break;
             default:
                 level = 0; // or handle other cases if needed
         }
 
-        link = makeLink(heading, menuWidth)
+        heading.setAttribute("id", "heading_" + h1Seq + "_" + h2Seq + "_" + h3Seq);
 
         let ul;
 
@@ -158,6 +166,11 @@ function makeLink(h, menuWidth) {
             return ''
         }
     }).join('').replace(/\(.*\)$/, '')
+
+    if (text === "") {
+        return null;
+    }
+
     link.innerHTML =
         '<a class="section-link" data-scroll href="#' + h.id + '">' +
         hfmt(text) +
