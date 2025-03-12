@@ -1,26 +1,26 @@
 function dom(id) {
-  return document.getElementById(id)
+    return document.getElementById(id)
 }
 
 function ndom(n) {
-  return document.createElement(n)
+    return document.createElement(n)
 }
 
 function endwith(s, c) {
-  return s.indexOf(c, s.length - c.length) != -1;
+    return s.indexOf(c, s.length - c.length) != -1;
 }
 
 function hfmt(text) {
-  return text
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
 }
 
 function validvar(v) {
-  return typeof v !== 'undefined' && v !== null
+    return typeof v !== 'undefined' && v !== null
 }
 
 function loadScript(id, url, callback) {
@@ -44,10 +44,10 @@ function loadScript(id, url, callback) {
     return 0;
 }
 
-function loadCss(url){
-    let head  = document.getElementsByTagName('head')[0];
-    let link  = document.createElement('link');
-    link.rel  = 'stylesheet';
+function loadCss(url) {
+    let head = document.getElementsByTagName('head')[0];
+    let link = document.createElement('link');
+    link.rel = 'stylesheet';
     link.type = 'text/css';
     link.href = url;
     link.media = 'all';
@@ -83,7 +83,7 @@ function marktitle() {
     document.title = mainTitle.innerText;
 }
 
-function markmenu(menuLevel) {
+function markmenu() {
     if (window.innerWidth < 900) {
         return
     }
@@ -95,32 +95,42 @@ function markmenu(menuLevel) {
         return;
     }
     let menuWidth = (window.innerWidth - 860) / 2;
-    let html = dom("app").innerHTML;
-    let pattern = new RegExp("<h([1-" + menuLevel + "]) id=\"([^\"]+)\"", "g");
+
+    let headings = document.querySelectorAll('h1, h2, h3');
 
     let previousLi = dom("menu");
     previousLi.classList.add("no-print");
 
     let previousLevel = 0;
     let previousUl;
-
-    let matchArr;
-    let level;
-    let id;
-    let h;
+    let idSeq = 1;
     let link;
-    while ((matchArr = pattern.exec(html))) {
-        level = parseInt(matchArr[1])
-        id = matchArr[2]
-        h = dom(id)
-        link = makeLink(h, menuWidth)
+    headings.forEach(heading => {
+        heading.setAttribute("id", "heading_" + idSeq++);
+
+        let level;
+        switch (heading.tagName.toLowerCase()) {
+            case 'h1':
+                level = 1;
+                break;
+            case 'h2':
+                level = 2;
+                break;
+            case 'h3':
+                level = 3;
+                break;
+            default:
+                level = 0; // or handle other cases if needed
+        }
+
+        link = makeLink(heading, menuWidth)
 
         let ul;
 
         if (level > previousLevel) {
             ul = ndom('ul')
             previousLi.appendChild(ul)
-        } else if (level == previousLevel) {
+        } else if (level === previousLevel) {
             ul = previousUl;
         } else {
             while (level < previousLevel--) {
@@ -132,7 +142,7 @@ function markmenu(menuLevel) {
         previousLi = link
         previousUl = ul
         previousLevel = level
-    }
+    });
 }
 
 function makeLink(h, menuWidth) {
@@ -269,11 +279,11 @@ function GenGitTalkPageId() {
 }
 
 function markgittalk() {
-    if ( typeof gitalk_enable_host !== 'undefined' &&
-         typeof gitalk_client_id !== 'undefined' &&
-         typeof gitalk_client_secret !== 'undefined' &&
-         typeof gitalk_repo !== 'undefined' &&
-         typeof gitalk_user !== 'undefined') {
+    if (typeof gitalk_enable_host !== 'undefined' &&
+        typeof gitalk_client_id !== 'undefined' &&
+        typeof gitalk_client_secret !== 'undefined' &&
+        typeof gitalk_repo !== 'undefined' &&
+        typeof gitalk_user !== 'undefined') {
         let g = ndom("div");
         g.setAttribute("id", "gitalk")
         g.classList.add("main");
@@ -328,7 +338,7 @@ function loadmark(url) {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             var s = marked(xmlhttp.responseText);
             if (s === "") {
-                alert( "找不到你要访问的页面!");
+                alert("找不到你要访问的页面!");
                 return
             }
             app = dom('app');
@@ -341,7 +351,7 @@ function loadmark(url) {
             return
         }
         if (xmlhttp.status === 404) {
-            alert( "找不到你要访问的页面!");
+            alert("找不到你要访问的页面!");
             return
         }
         if (xmlhttp.status >= 400) {
@@ -361,16 +371,14 @@ function renderMarkUrl(url) {
 
 function cc40() {
     let cc = ndom("footer");
-    cc.innerHTML='<p>版权声明：本文章采用<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">知识共享 署名-相同方式共享 4.0 国际许可协议</a>进行许可。</p>';
+    cc.innerHTML = '<p>版权声明：本文章采用<a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh">知识共享 署名-相同方式共享 4.0 国际许可协议</a>进行许可。</p>';
     dom("app").append(cc);
 }
 
-function markhtml(){
-    document.documentElement.setAttribute('data-theme', 'light');
-  
+function markhtml() {
     if (dom("app").innerText != "") {
         marktitle();
-        markmenu(3);
+        markmenu();
         mark_adjustUrl(window.location.href);
         renderHighlight();
         renderMind();
