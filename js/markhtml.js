@@ -108,11 +108,6 @@ function markmenu() {
 
     let headings = document.querySelectorAll('h1, h2, h3');
     headings.forEach(heading => {
-        link = makeLink(heading, menuWidth)
-        if (link === null) {
-            return;
-        }
-
         let level;
         switch (heading.tagName.toLowerCase()) {
             case 'h1':
@@ -131,7 +126,13 @@ function markmenu() {
                 level = 0; // or handle other cases if needed
         }
 
+        // set id before creating the link
         heading.setAttribute("id", "heading_" + h1Seq + "_" + h2Seq + "_" + h3Seq);
+
+        link = makeLink(heading, menuWidth)
+        if (link === null) {
+            return;
+        }
 
         let ul;
 
