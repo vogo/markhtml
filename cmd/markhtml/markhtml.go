@@ -259,7 +259,7 @@ func copyTo(from string, to string) error {
 
 // markdown2html markdown转化为html
 func markdown2html(from string, to string) error {
-	fmt.Printf("markdown2html %s to %s\n", from, to)
+	fmt.Printf("marked %s > %s\n", from, to)
 
 	buf := new(bytes.Buffer)
 	buf.Write(indexTemplatePrefixHTML)
