@@ -23,6 +23,10 @@
     margin-left: 10px
 }
 
+#menu a {
+    color: var(--color-fg-default);
+}
+
 .main {
     max-width: 800px;
     margin: 0 auto;
