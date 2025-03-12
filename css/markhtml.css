@@ -7,18 +7,6 @@
     }
 }
 
-[data-theme] .markdown-body {
-  color-scheme: light !important;
-}
-
-:root {
-  color-scheme: light;
-}
-
-.markdown-body {
-    color-scheme: light;
-}
-
 #menu {
     font-size: 12px;
     float: left;
@@ -33,11 +21,6 @@
 
 #menu li {
     margin-left: 10px
-}
-
-
-#menu a {
-    color: black
 }
 
 .main {
