@@ -190,6 +190,7 @@ function markmath() {
         tex2jax: {
             inlineMath: [["$", "$"], ["\\(", "\\)"]],
             displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+            packages: {'[+]': ['ams']}, // 加载 ams 包以支持 align 等环境
             processEscapes: true,
             skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
         },
