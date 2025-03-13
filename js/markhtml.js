@@ -177,34 +177,31 @@ function renderHighlight() {
     });
 }
 
-function markmath() {
-    MathJax = {
-        showProcessingMessages: false,
-        messageStyle: "none",
-        "HTML-CSS": {
-            linebreaks: {
-                automatic: false
-            },
-            availableFonts: ["STIX", "TeX"]
+MathJax = {
+    showProcessingMessages: false,
+    messageStyle: "none",
+    "HTML-CSS": {
+        linebreaks: {
+            automatic: false
         },
-        tex2jax: {
-            inlineMath: [["$", "$"], ["\\(", "\\)"]],
-            displayMath: [["$$", "$$"], ["\\[", "\\]"]],
-            packages: {'[+]': ['ams']}, // 加载 ams 包以支持 align 等环境
-            processEscapes: true,
-            skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
-        },
-        tex: {
-            Macros: {
-                tr: "{\\scriptscriptstyle\\mathrm{T}}",
-            }
+        availableFonts: ["STIX", "TeX"]
+    },
+    tex2jax: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        packages: {'[+]': ['ams']}, // 加载 ams 包以支持 align 等环境
+        processEscapes: false,
+        skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+    },
+    tex: {
+        Macros: {
+            tr: "{\\scriptscriptstyle\\mathrm{T}}",
         }
-    };
-}
+    }
+};
 
 function renderMath() {
     loadScript("MathJax-script", "//cdn.staticfile.net/mathjax/3.2.2/es5/tex-mml-chtml.min.js", function () {
-        markmath();
     })
 }
 
