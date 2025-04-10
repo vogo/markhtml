@@ -7,12 +7,14 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
 	"time"
 
+	"github.com/gomarkdown/markdown"
+	"github.com/gomarkdown/markdown/html"
+	"github.com/gomarkdown/markdown/parser"
 	"github.com/vogo/vogo/vos"
 )
 
@@ -257,6 +259,15 @@ func copyTo(from string, to string) error {
 
 }
 
+var markdownHtmlRender = html.NewRenderer(html.RendererOptions{
+	Flags: html.CommonFlags | html.HrefTargetBlank,
+})
+
+const markdownExtensions = parser.NoIntraEmphasis | parser.Tables | parser.FencedCode |
+	parser.Autolink | parser.Strikethrough | parser.SpaceHeadings | parser.HeadingIDs |
+	parser.BackslashLineBreak | parser.DefinitionLists | parser.MathJax |
+	parser.NoEmptyLineBeforeBlock&^parser.HardLineBreak
+
 // markdown2html markdown转化为html
 func markdown2html(from string, to string) error {
 	fmt.Printf("marked %s > %s\n", from, to)
@@ -264,12 +275,15 @@ func markdown2html(from string, to string) error {
 	buf := new(bytes.Buffer)
 	buf.Write(indexTemplatePrefixHTML)
 
-	markBuf, err := bash("marked " + from)
+	fileData, err := os.ReadFile(from)
 	if err != nil {
 		return err
 	}
+	markdownHtmlParser := parser.NewWithExtensions(markdownExtensions)
+	markBuf := markdown.ToHTML(fileData, markdownHtmlParser, markdownHtmlRender)
 
 	buf.Write(markBuf)
+
 	buf.Write(indexTemplateSuffixHTML)
 
 	if err = os.WriteFile(to, buf.Bytes(), os.ModePerm); err != nil {
@@ -277,9 +291,4 @@ func markdown2html(from string, to string) error {
 	}
 
 	return nil
-}
-
-func bash(fullCommand string) ([]byte, error) {
-	cmd := exec.Command("/bin/sh", "-c", fullCommand)
-	return cmd.CombinedOutput()
 }
