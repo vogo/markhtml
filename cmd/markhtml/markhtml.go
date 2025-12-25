@@ -107,8 +107,10 @@ func convertDir(src string, target string) error {
 
 			link, indexErr := parseIndexLink(htmlName, from)
 			if indexErr != nil {
-				return indexErr
+				fmt.Println(indexErr)
+				continue
 			}
+
 			indexLinks = append(indexLinks, link)
 
 		} else {
